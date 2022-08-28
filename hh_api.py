@@ -4,13 +4,15 @@ from pycbrf import ExchangeRates
 from areas_request import area_req
 import re
 from collections import Counter
-from json import dump as jdump
+
 
 def vac_request():
     DOMAIN = 'http://api.hh.ru/'
     url_vac = f'{DOMAIN}vacancies'
     rate = ExchangeRates()
-    vacancy = input('Введите название вакансии на английском: ')
+    with open('vac.txt', 'r') as f:
+        vacancy = f.read()
+    print(vacancy)
     area_vac = area_req()
 
     params = {'text': vacancy,
@@ -70,8 +72,7 @@ def vac_request():
     result['Требования'] = add
     pprint.pprint(result)
 
-    with open('result.json', mode='w') as f:
-        jdump([result], f)
-
-
-vac_request()
+    for i in result:
+        with open('result.txt', 'w') as f:
+            f.write(f'{i}\n')
+    return print(vacancy)

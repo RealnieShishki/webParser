@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Результаты</title>
+    </head>
+    <body>
+        <ul>
+            <li>
+                <a href="/">Главная</a>
+            </li>
+            <li>
+                <a href="/contacts/">Контакты</a>
+        </ul>
+
+        {% if data %}
+        <ul>
+            {% for item in data %}
+                <li>
+                    {{item}}
+                </li>
+            {% endfor %}
+
+        </ul>
+        {% else %}
+            Данных нет
+        {% endif %}
+
+
+        </body>
+</html>
