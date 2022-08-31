@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from hh_api import vac_request
-import os
+import json
 
 app = Flask(__name__)
 
@@ -19,23 +19,19 @@ def form_get():
 @app.route('/form/', methods=['POST'])
 def form_post():
     vac_form = request.form['input_vacancy']
-    with open('vac.txt', 'w') as f:
-        f.write(f'{vac_form}\n')
+    with open('vac.txt', mode='w') as f:
+        f.write(f'{vac_form}')
     area_form = request.form['input_area']
-    with open('area.txt', 'w') as f:
-        f.write(f'{area_form}\n')
+    with open('area.txt', mode='w') as f:
+        f.write(f'{area_form}')
     return render_template('result.html')
 
 @app.route('/result/')
 def result():
     vac_request()
-    with open('result.txt', 'r') as f:
-        data = f.read()
+    with open('result.json') as f:
+        data = json.load(f)
     return render_template('result.html', data=data)
-
-
-
-
 
 
 if __name__ == '__main__':
