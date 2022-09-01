@@ -1,6 +1,6 @@
 import requests
-import pprint
 from pycbrf import ExchangeRates
+import pprint
 from areas_request import area_req
 import re
 from collections import Counter
@@ -8,12 +8,12 @@ from json import dump as jdump
 
 
 def vac_request():
+    with open('vac.txt', "r", encoding='UTF-8') as f:
+        vacancy = f.read()
+
     DOMAIN = 'http://api.hh.ru/'
     url_vac = f'{DOMAIN}vacancies'
     rate = ExchangeRates()
-    with open('vac.txt', "r") as f:
-        vacancy = f.read()
-    print(vacancy)
     area_vac = area_req()
 
     params = {'text': vacancy,
@@ -29,7 +29,7 @@ def vac_request():
     sal = {'from': [], 'to': [], 'cur': []}
 
     for page in range(count_pages):
-        param = { 'text': vacancy,
+        param = {'text': vacancy,
                   'page': page}
         ress = requests.get(url_vac, params=param).json()
         all_count = len(ress['items'])
@@ -71,12 +71,6 @@ def vac_request():
                     'количество': count,
                     'доля': round((count / result['count'])*100, 2)})
     result['Требования'] = add
-    pprint.pprint(result)
 
     with open('result.json', mode='w') as f:
         jdump([result], f)
-
-
-
-
-

@@ -1,10 +1,12 @@
 import requests
 
+
 def area_req():
+    with open('area.txt', "r", encoding='UTF-8') as f:
+        area = f.read()
+
     DOMAIN = 'http://api.hh.ru/'
     country_url = f'{DOMAIN}areas/'
-    with open('area.txt', 'r', encoding='UTF-8') as f:
-        area = f.read()
     if area.islower:
         area = area.capitalize()
     result = requests.get(country_url).json()
@@ -21,5 +23,3 @@ def area_req():
                         area_id.append(k.get('id'))
 
     return area_id
-
-

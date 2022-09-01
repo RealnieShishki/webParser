@@ -19,18 +19,15 @@ def form_get():
 @app.route('/form/', methods=['POST'])
 def form_post():
     vac_form = request.form['input_vacancy']
-    with open('vac.txt', mode='w') as f:
+    with open('vac.txt', mode='w', encoding='UTF-8') as f:
         f.write(f'{vac_form}')
     area_form = request.form['input_area']
-    with open('area.txt', mode='w') as f:
+    with open('area.txt', mode='w', encoding='UTF-8') as f:
         f.write(f'{area_form}')
-    return render_template('result.html')
-
-@app.route('/result/')
-def result():
     vac_request()
     with open('result.json') as f:
         data = json.load(f)
+    print(data)
     return render_template('result.html', data=data)
 
 
