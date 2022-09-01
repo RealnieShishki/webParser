@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from hh_api import vac_request
+from add_row import add_row
 import json
 
 app = Flask(__name__)
@@ -25,6 +26,7 @@ def form_post():
     with open('area.txt', mode='w', encoding='UTF-8') as f:
         f.write(f'{area_form}')
     vac_request()
+    add_row()
     with open('result.json') as f:
         data = json.load(f)
     print(data)
