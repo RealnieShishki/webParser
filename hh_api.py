@@ -1,6 +1,5 @@
 import requests
 from pycbrf import ExchangeRates
-import pprint
 from areas_request import area_req
 import re
 from collections import Counter
@@ -66,6 +65,7 @@ def vac_request():
 
     add = []
 
+
     for name, count in sk2.most_common(5):
         add.append({'Название': name,
                     'количество': count,
@@ -74,3 +74,5 @@ def vac_request():
 
     with open('result.json', mode='w') as f:
         jdump([result], f)
+
+
