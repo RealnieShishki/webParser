@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 from hh_api import vac_request
 from add_row import add_row
-import json
-
+from databaseORM import Session, Vacancy, VacancySkill
+cur = Session()
 app = Flask(__name__)
 
 @app.route('/')
@@ -20,16 +20,15 @@ def form_get():
 @app.route('/form/', methods=['POST'])
 def form_post():
     vac_form = request.form['input_vacancy']
-    with open('vac.txt', mode='w', encoding='UTF-8') as f:
-        f.write(f'{vac_form}')
+
     area_form = request.form['input_area']
     with open('area.txt', mode='w', encoding='UTF-8') as f:
         f.write(f'{area_form}')
-    vac_request()
-    add_row()
-    with open('result.json') as f:
-        data = json.load(f)
-    print(data)
+    data = vac_request(vac_form)
+    add_row(data)
+    res = cur.query(Vacancy).filter_by(vacancy=data['keywords']).first()
+    print(res)
+
     return render_template('result.html', data=data)
 
 
