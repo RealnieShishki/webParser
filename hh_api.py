@@ -3,12 +3,9 @@ from pycbrf import ExchangeRates
 from areas_request import area_req
 import re
 from collections import Counter
-from json import dump as jdump
 
 
-def vac_request():
-    with open('vac.txt', "r", encoding='UTF-8') as f:
-        vacancy = f.read()
+def vac_request(vacancy):
 
     DOMAIN = 'http://api.hh.ru/'
     url_vac = f'{DOMAIN}vacancies'
@@ -65,14 +62,12 @@ def vac_request():
 
     add = []
 
-
     for name, count in sk2.most_common(5):
         add.append({'Название': name,
                     'количество': count,
                     'доля': round((count / result['count'])*100, 2)})
     result['Требования'] = add
 
-    with open('result.json', mode='w') as f:
-        jdump([result], f)
+    return result
 
 
